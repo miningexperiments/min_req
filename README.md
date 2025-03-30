@@ -1,6 +1,6 @@
 # Run
 ```sh
-pip install speedtest-cli 
+pip install speedtest-cli psutil 
 python minrequirements.py
 ```
 ## Common errors:

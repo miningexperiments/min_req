@@ -1,4 +1,3 @@
-import psutil
 import shutil
 import sys
 import platform
@@ -7,9 +6,10 @@ import time
 
 try:
     import speedtest
-except ModuleNotFoundError:
-    print("❌ Missing dependency: 'speedtest-cli'")
-    print("🔧 Install it using: pip install speedtest-cli")
+    import psutil
+except ModuleNotFoundError as e:
+    print(f"❌ Missing dependency: {e}")
+    print("🔧 Be sure to install dependencies: pip install speedtest-cli psutil")
     sys.exit(1)
 
 MIN_CORES = 4
@@ -17,7 +17,7 @@ MIN_RAM_GB = 16
 MIN_DISK_GB = 300
 MIN_DL_SPEED = 40
 MIN_UL_SPEED = 10
-MIN_PING = 250
+MAX_PING = 250
 
 
 def bytes_to_mbps(bytes_per_second):
@@ -77,9 +77,9 @@ def run_speed_test():
 
     print("Testing ping...")
     ping = st.results.ping
-    if ping > MIN_PING:
+    if ping > MAX_PING:
         raise RuntimeError(
-            f"High latency detected: {ping:.2f} ms, less than {MIN_PING} ms recommended."
+            f"High latency detected: {ping:.2f} ms, less than {MAX_PING} ms is recommended."
         )
 
     print("✅ Internet checks passed.\n")
